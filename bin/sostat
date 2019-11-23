@@ -204,10 +204,10 @@ if [ -d /nsm/sensor_data ] && [ $NUM_INTERFACES -gt 0 ]; then
 	if [ "$ENGINE" = "suricata" ]; then
 		for i in /nsm/sensor_data/*/stats.log; do
 			echo "$i"
-			if [ $( tail -n 50 $i | grep -c drop ) -ne 0 ]; then
+			if [ $( tail -n 100 $i | grep -c drop ) -ne 0 ]; then
 				echo
-				SURI_CAPTURE=`tail -n 50 "$i" | grep -m1 "capture.kernel_packets" | awk '{print $5}'`
-				SURI_DROPS=`tail -n 50 "$i" | grep -m1 "capture.kernel_drops" | awk '{print $5}'`
+				SURI_CAPTURE=`tail -n 100 "$i" | grep -m1 "capture.kernel_packets" | awk '{print $5}'`
+				SURI_DROPS=`tail -n 100 "$i" | grep -m1 "capture.kernel_drops" | awk '{print $5}'`
 				SURI_PCT=$(echo "scale=2 ; $SURI_DROPS * 10/$SURI_CAPTURE * 10" | bc)
 				echo $SURI_PCT% Loss
 				echo
